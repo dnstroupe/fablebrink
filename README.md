@@ -2,7 +2,7 @@
 
 Independent streaming UX portfolio project by David Stroupe.
 
-[Current Figma designs](https://www.figma.com/design/m1JMrEeFiQKkrbcpRGlVE6?node-id=11-69) | [Design handoff](FIGMA-HANDOFF.md)
+[Live demo](https://dnstroupe.github.io/fablebrink/dist/) | [Case study](https://dnstroupe.github.io/fablebrink/dist/case-study.html) | [Current Figma designs](https://www.figma.com/design/m1JMrEeFiQKkrbcpRGlVE6?node-id=11-69) | [Design handoff](FIGMA-HANDOFF.md)
 
 ## Run
 
