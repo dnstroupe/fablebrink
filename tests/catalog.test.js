@@ -1,0 +1,10 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{catalog,byId,select,restore,toggle}from'../dist/catalog.js';
+test('combined filters intersect',()=>{assert.deepEqual(select({genre:'Mystery',mood:'Comfort',origin:'OffbeatPanels'}).map(x=>x.id),['cat-cafe']);assert.equal(select({genre:'Adventure',mood:'Wonder'}).length,0);});
+test('search ignores case and surrounding spaces',()=>assert.equal(select({query:'  LUNAR '})[0].id,'moon'));
+test('saved titles respect filters',()=>assert.deepEqual(select({savedOnly:true,saved:['moon','tide'],mood:'Wonder'}).map(x=>x.id),['moon']));
+test('damaged and legacy browser storage recover safely',()=>{assert.deepEqual(restore('{broken'),{saved:[],progress:{},spoilers:false,reduced:false});assert.deepEqual(restore('{"saved":["moon","moon","unknown"],"progress":12}').saved,['moon']);assert.deepEqual(restore('{"progress":12}').progress,{});});
+test('progress is bounded separately to each available preview',()=>{assert.deepEqual(restore('{"progress":{"last-train":99,"moon":-4,"tide":7,"unknown":4}}').progress,{'last-train':7,moon:0});});
+test('save and remove are reversible and reject unknown titles',()=>{assert.deepEqual(toggle(toggle([],'moon'),'moon'),[]);assert.deepEqual(toggle([],'unknown'),[]);});
+test('film and series destinations partition the catalog',()=>{assert.equal(select({format:'Film'}).length,8);assert.equal(select({format:'Series'}).length,8);assert.equal(new Set(catalog.map(x=>x.id)).size,16);});
+test('only titles with real media expose previews',()=>{assert.deepEqual(catalog.filter(x=>x.preview).map(x=>x.id),['last-train','moon']);for(const d of catalog)assert.equal(d.available,!!d.preview);});
+test('format and saved state intersect',()=>assert.deepEqual(select({format:'Film',savedOnly:true,saved:['moon','last-train']}).map(x=>x.id),['moon']));

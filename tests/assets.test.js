@@ -1,0 +1,3 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{existsSync,readFileSync}from'node:fs';import{catalog}from'../dist/catalog.js';
+test('all playable media and main pages exist',()=>{for(const d of catalog.filter(x=>x.preview))assert.ok(existsSync(new URL('../dist/'+d.preview,import.meta.url)));for(const f of ['index.html','films.html','series.html','browse.html','list.html','title.html','cinema.css'])assert.ok(existsSync(new URL('../dist/'+f,import.meta.url)));});
+test('new catalog artwork exists and references valid atlas cells',()=>{assert.ok(existsSync(new URL('../dist/assets/new-worlds.png',import.meta.url)));for(const d of catalog.filter(x=>x.atlas==='new'))assert.ok(d.art>=0&&d.art<9);});
